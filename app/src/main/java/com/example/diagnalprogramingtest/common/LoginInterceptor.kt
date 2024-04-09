@@ -11,10 +11,6 @@ import javax.inject.Inject
 
 class LoginInterceptor @Inject constructor(var context: Context) : Interceptor {
     override fun intercept(chain: Interceptor.Chain): Response {
-
-        //If requested endpoint matched to targeted endpoint, we will return an mocked response.
-        //if (chain.request().url.toString().endsWith("CONTENTLISTINGPAGE-PAGE1.json")) {
-
         val fileName = chain.request().url.toString().replace(BASE_URL, "")
         val responseString = context.readJsonFromAssets(fileName)
         try {
@@ -37,11 +33,6 @@ class LoginInterceptor @Inject constructor(var context: Context) : Interceptor {
             e.printStackTrace()
             return chain.proceed(chain.request())
         }
-
-        /* } else {
-             //Skip the interception.
-             return chain.proceed(chain.request())
-         }*/
 
     }
 }
