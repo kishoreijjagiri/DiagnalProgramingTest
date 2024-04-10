@@ -10,15 +10,17 @@ import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.bumptech.glide.RequestManager
 import com.example.diagnalprogramingtest.R
 import com.example.diagnalprogramingtest.data.dto.Content
 import javax.inject.Inject
 
 
-class MyItemRecyclerViewAdapter @Inject constructor() :
+class MyItemRecyclerViewAdapter @Inject constructor(private  val glidemanger:RequestManager) :
     PagingDataAdapter<Content, MyItemRecyclerViewAdapter.ViewHolder>(PassengerListDiffCallback()) {
 
     lateinit var context: Context
+
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val item = getItem(position)
         holder.idView.text = item?.name
@@ -33,12 +35,11 @@ class MyItemRecyclerViewAdapter @Inject constructor() :
         )
 
         //holder.image.setImageResource(drawable)
-        Glide
-            .with(context)
+        glidemanger
             .load(drawable)
             .fitCenter()
             .placeholder(R.drawable.placeholder_for_missing_posters)
-            .into(holder.image);
+            .into(holder.image)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -64,7 +65,13 @@ class MyItemRecyclerViewAdapter @Inject constructor() :
                 context.packageName
             )
 
-            holder.image.setImageResource(drawable)
+            //holder.image.setImageResource(drawable)
+
+            glidemanger
+                .load(drawable)
+                .fitCenter()
+                .placeholder(R.drawable.placeholder_for_missing_posters)
+                .into(holder.image)
         }
 
 

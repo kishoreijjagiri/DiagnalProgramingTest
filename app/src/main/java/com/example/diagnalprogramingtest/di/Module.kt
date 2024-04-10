@@ -1,6 +1,11 @@
 package com.example.diagnalprogramingtest.di
 
+import android.app.Application
 import android.content.Context
+import com.bumptech.glide.Glide
+import com.bumptech.glide.RequestManager
+import com.bumptech.glide.request.RequestOptions
+import com.example.diagnalprogramingtest.R
 import com.example.diagnalprogramingtest.common.LoginInterceptor
 import com.example.diagnalprogramingtest.data.network.RetrofitApi
 import com.example.diagnalprogramingtest.domain.Repository
@@ -44,6 +49,19 @@ object Module {
         .addConverterFactory(GsonConverterFactory.create())
         .client(okHttpClient)
         .build()
+
+    @Provides
+    @Singleton
+    fun provideRequestOption()=
+        RequestOptions.placeholderOf(R.drawable.placeholder_for_missing_posters)
+            .error(R.drawable.placeholder_for_missing_posters)
+
+    @Provides
+    @Singleton
+    fun ProvideGlideManager(@ApplicationContext context: Context,requestOptions: RequestOptions ):RequestManager=
+        Glide.with(context)
+            .setDefaultRequestOptions(requestOptions)
+
 
     @Provides
     @Singleton
